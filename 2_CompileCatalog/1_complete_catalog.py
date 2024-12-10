@@ -5,7 +5,6 @@ import glob
 import os 
 from scipy.integrate import simpson
 from astropy.io import fits
-#from functools import reduce
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 
@@ -16,7 +15,7 @@ pd.options.mode.chained_assignment = None
 ############
 ## Inputs ##
 ############
-galaxy = 'lmc'
+galaxy = 'smc'
 
 ##############
 ## Switches ##
@@ -28,10 +27,11 @@ galaxy = 'lmc'
 # - fraction of flux that was assigned to this source by tractor.
 # This takes some time, so first_half switch allows you to do it in chunks. 
 step_1 = False
-first_half = False 
+run_first_half = False
+run_all = False
 # Combines CSVs with all the individual sources from each of the fields. 
 # Adds a column that says which image a given measurement came from. 
-step_2 = True
+step_2 = False
 
 # Average together different observations of the same source to have a final measurement. 
 # - Drop certain measurements:
@@ -47,7 +47,7 @@ step_2 = True
 step_3 = False
 # Create the full catalog
 # Link up the UVW1, UVM2, and UVW2 photometry for a given source. 
-step_4 = False
+step_4 = True
 
 ###############
 ## Functions ##
@@ -143,7 +143,6 @@ def mad(values,ra,dec,uvfilter,log_dir):
 ############
 
 total_start = time.time()
-#n = len(path) 
 
 if step_1:        
     path = f"H:/Data/SUMS_Tractor_Data/{galaxy}/"
@@ -154,8 +153,10 @@ if step_1:
 
     # This step takes a long time to run, so splitting each galaxy in half 
     # To run separately 
-    #n_folders = int(np.ceil(len(folders)/2)) 
-    #folders = folders[:n_folders] if first_half else folders[n_folders:]
+    n_folders = int(np.ceil(len(folders)/2)) 
+    
+    if run_all == False:
+        folders = folders[:n_folders] if run_first_half else folders[n_folders:]
 
     counter = 0 
     for f in folders: 
@@ -164,12 +165,6 @@ if step_1:
         uvfilter = f[n+23:n+26]
         segment = f[-4]
         extension = f[-2]
-        # Original image output from tractor 
-        im_file = f + f'/{obsid}_{uvfilter}_{segment}_{extension}_img.fits'
-        # Matched by pixel csv
-        cat_file = cat_path + f'/{obsid}_{uvfilter}_{segment}_{extension}.csv'
-        csv_data = pd.read_csv(cat_file)
-        hdr = fits.open(im_file)[0]
         step1_file_save = save_dir + f'Step1/{galaxy}/{obsid}_{uvfilter}_{segment}_{extension}_step1.csv'
 
         # Code Start 
@@ -178,13 +173,19 @@ if step_1:
             continue
         else:
             print(f"Running Step 1 on Obsid: {obsid} UVfilter:{uvfilter}")
+            # Original image output from tractor 
+            im_file = f + f'/{obsid}_{uvfilter}_{segment}_{extension}_img.fits'
+            # Matched by pixel csv
+            cat_file = cat_path + f'/{obsid}_{uvfilter}_{segment}_{extension}.csv'
+            csv_data = pd.read_csv(cat_file)
+            hdr = fits.open(im_file)[0]
+
             start = time.time()
             # Drop Nans
             csv_data = csv_data[~np.isnan(csv_data.MAG_ERR)].reset_index(drop=True)
             # Calculate how much tractor moved a source and add this as a row. 
             d = distance(csv_data.PIX_X,csv_data.INIT_PIX_X,csv_data.PIX_Y,csv_data.INIT_PIX_Y)
             csv_data['d_moved'] = d
-            
 
             # Loop through sources
             for index, row in csv_data.iterrows():
@@ -262,15 +263,17 @@ if step_2:
 
     # Loop over each filter
     for uvfilter in ['um2','uw2','uw1']:
-    
+        step2_file_save = step2_dir + f'{galaxy}_{uvfilter}_step2.csv'
+        if os.path.exists(step2_file_save):
+            print('Skipping: ',step2_file_save)
+            continue
+
         # Get all the folders with data from that filter
         folders = glob.glob(f'{path}*X/*{uvfilter}*/')
 
-        # First csv won't need to be appended to itself.
-        counter = 0
-
         start = time.time()
         csvs = []
+ 
         for f in folders: 
             # File management
             obsid = f[n+15:n+20]
@@ -279,13 +282,13 @@ if step_2:
             extension = f[-2]
             im_file = f + f'/{obsid}_{uvfilter}_{segment}_{extension}_img.fits'
             step1_cat_file = step1_dir + f'{galaxy}/{obsid}_{uvfilter}_{segment}_{extension}_step1.csv'
+
             # Open Step 1 file 
             csv_data = pd.read_csv(step1_cat_file)
             hdr = fits.open(im_file)[0]
             # Get exposure time
             exp_time = hdr.header["EXPOSURE"]
-            step2_file_save = step2_dir + f'{galaxy}_{uvfilter}_step2.csv'
-
+            
             print(f"Running Step 2 on Obsid: {obsid} UVfilter:{uvfilter}")
 
             # Add image name and exposure as a column 
@@ -295,7 +298,7 @@ if step_2:
             csvs.append(csv_data)
 
         combined_csv_data = pd.concat(csvs)
-        combined_csv_data.to_csv(step2_file_save)
+        combined_csv_data.to_csv(step2_file_save,index=False)
         print(f'Time taken for {uvfilter}: {time.time()-start} s')
 
 ############
@@ -470,11 +473,13 @@ if step_3:
                 line['resid_frac_std'] = std_resid
                 line['std_unweighted'] = np.std(g.MAG)
 
-            # Ceil will always round up to the nearest whole number              
-            line['num5'] = np.ceil(g.num5) 
-            line['num2p5'] = np.ceil(g.num2p5)
-            line['num1'] = np.ceil(g.num1)
+            # How many neighbors could be around?             
+            line['num5'] = max(g.num5) 
+            line['num2p5'] = max(g.num2p5)
+            line['num1'] = max(g.num1)
+            # What is the closest neighbors?
             line['closest_min'] = np.min(g.closest)
+            # How far does tractor typically have to move this source? 
             line['dist_moved'] = np.mean(g.d_moved)
             line = pd.DataFrame([line])
             # For first line start a new csv, after that append each line to it. 
@@ -492,6 +497,8 @@ if step_3:
 ## Step 4 ##
 ############
 if step_4:
+    step3_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step3/"
+    step4_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step4/"
 
     print(f'Running step 4 on {galaxy}')
 
@@ -506,22 +513,29 @@ if step_4:
     
     uv_filters = ['uvw2','uvm2','uvw1']
     dfs = [] 
-
+    mcps_cols = ['ra','dec','U','e_U','B','e_B','V','e_V','I','e_I','J','e_J','H','e_H','Ks','e_Ks']
+    mcps_drop_cols =  ['J','e_J','H','e_H','Ks','e_Ks']
     # Loop over each filter
     for uvfilter in uv_filters:
         # Read in the step 3 files, ignore unnamed column by setting index_col=0 and resetting the index 
-        df = pd.read_csv(f'Step3/{galaxy}_{uvfilter}_step3.csv',index_col=0).reset_index(drop=True)
+        df = pd.read_csv(step3_dir+f'{galaxy}_{uvfilter}_step3.csv')
         # Rename the keys to have the uvfilter in front 
         df = rename_keys(df,uvfilter)
-        # Turn spaces to NaNs to make consistent
+        # Turn any spaces to NaNs to make consistent
         df = df.mask(df=='')
+        # Turny any mcps filters that are equal to 0 or -99 to NaN
+        df[mcps_cols] = df[mcps_cols].replace({0:np.nan,-99:np.nan})
         # Save the file
         dfs.append(df)
 
     # Combine the dataframes together
-    step_4_df = dfs[0].merge(dfs[1],how='outer').merge(dfs[2],how='outer')
+    # How = outer, means dont delete anything https://stackoverflow.com/questions/53645882/pandas-merging-101
+    step_4_df = pd.merge(dfs[0],dfs[1],on=mcps_cols,how='outer').merge(dfs[2],on=mcps_cols,how='outer')
+    # Drop some mcps cols 
+    step_4_df = step_4_df.drop(columns=mcps_drop_cols)
     step_4_df = step_4_df.reset_index(drop=True)
-    step_4_df.to_csv(f'Step4/{galaxy}_photometry.csv')
+    step_4_df.to_csv(step4_dir+f'{galaxy}_photometry.csv',index=False)
+    print(step_4_df.shape)
 
 
 ##########
