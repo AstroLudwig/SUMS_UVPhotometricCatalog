@@ -12,9 +12,10 @@ step3_uniquecoords_areunique = False
 step3_uniquecoords_assignment = True
 
 # Files 
-save_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/"
-step2_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step2/"
-log_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Logs/"
+data_dir = "/home/bethany/Projects/0_Data"
+save_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/"
+step2_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step2/"
+log_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Logs/"
 
 # Test all step 1 files were ran 
 if step1_files_completed:
@@ -54,7 +55,7 @@ if step1_fileshavecorrectamountofdata:
     for galaxy in ['lmc', 'smc']:  
         path = f"H:/Data/SUMS_Tractor_Data/{galaxy}/"
         cat_path = f"H:/Data/SUMS_Tractor_Data/MatchedByPixel/{galaxy}/"
-        save_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/"
+        save_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/"
         folders = glob.glob(f'{path}*X/*/')
         n = len(path) 
         counter = 0 
@@ -99,8 +100,8 @@ if step1_fileshavecorrectamountofdata:
 if step2_fileshavecorrectamountofdata:
     for galaxy in ['lmc', 'smc']:
         path = f"H:/Data/SUMS_Tractor_Data/{galaxy}/"
-        step1_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step1/"
-        step2_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step2/"
+        step1_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step1/"
+        step2_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step2/"
         n = len(path)
 
         # Loop over each filter

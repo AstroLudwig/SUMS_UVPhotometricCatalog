@@ -9,13 +9,12 @@ import time
 # bluewards of the ZAMS in nine different UV optical CMDs.
 
 # Choose which galaxy to work on: 
-galaxy = 'smc'
-step4_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step4/"
-step5_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step5/"
+galaxy = "smc"
+data_dir = "/home/bethany/Projects/0_Data"
+step4_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step4/"
+step5_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step5/"
 path = step4_dir + f'{galaxy}_photometry.csv'
 save = step5_dir + f'{galaxy}_colors.csv'
-
-
 
 ##############################
 # Constants and definitions: #
@@ -95,7 +94,6 @@ if galaxy == 'lmc':
 		"zams_ab":   pd.read_csv('C:/Projects/0_Data/Models/ZAMS/ZAMS_Z0.006_ABmag.txt',sep=r'\s+',comment='#'),
 		"shs_ab":	 pd.read_csv('C:/Projects/0_Data/Models/SHS/stripped_stars_Z0.006_ABmag.txt',sep=r'\s+',comment='#')
 	}
-
 
 # Convert to apparent mags
 zams = {
