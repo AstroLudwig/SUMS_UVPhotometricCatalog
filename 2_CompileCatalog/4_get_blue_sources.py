@@ -10,7 +10,7 @@ import time
 
 # Choose which galaxy to work on: 
 galaxy = "smc"
-data_dir = "/home/bethany/Projects/0_Data"
+data_dir = "/home/bethany/Projects/0_Data/"
 step4_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step4/"
 step5_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step5/"
 path = step4_dir + f'{galaxy}_photometry.csv'
