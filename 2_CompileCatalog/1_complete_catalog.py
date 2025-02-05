@@ -147,9 +147,9 @@ total_start = time.time()
 if step_1:        
     path = f"H:/Data/SUMS_Tractor_Data/{galaxy}/"
     cat_path = f"H:/Data/SUMS_Tractor_Data/MatchedByPixel/{galaxy}/"
-    save_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/"
+    save_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/"
     folders = glob.glob(f'{path}*X/*/')
-    n = len(path) 
+    n = len(path)
 
     # This step takes a long time to run, so splitting each galaxy in half 
     # To run separately 
@@ -257,8 +257,8 @@ if step_1:
 
 if step_2:   
     path = f"H:/Data/SUMS_Tractor_Data/{galaxy}/"
-    step1_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step1/"
-    step2_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step2/"
+    step1_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step1/"
+    step2_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step2/"
     n = len(path)
 
     # Loop over each filter
@@ -306,9 +306,9 @@ if step_2:
 ############
 
 if step_3: 
-    step2_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step2/"
-    step3_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step3/"
-    log_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Logs/"
+    step2_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step2/"
+    step3_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step3/"
+    log_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/Logs/"
 
     # Get files from step 2 
     s2_um2 = pd.read_csv(step2_dir + f'{galaxy}_um2_step2.csv')
@@ -497,8 +497,8 @@ if step_3:
 ## Step 4 ##
 ############
 if step_4:
-    step3_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step3/"
-    step4_dir = "C:/Projects/0_Data/SUMS_CompleteCatalog/Step4/"
+    step3_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step3/"
+    step4_dir = "C:/Projects/0_Data/0_SUMS_Catalogs/CompleteCatalog/Step4/"
 
     print(f'Running step 4 on {galaxy}')
 
