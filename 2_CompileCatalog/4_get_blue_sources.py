@@ -12,8 +12,6 @@ galaxy = "lmc"
 data_dir = "/home/bethany/Projects/0_Data/"
 step4_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step4/"
 step5_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step5/"
-# step4_dir = "/Volumes/Untitled/0_Data/SUMS_Catalogs/Step4/"
-# step5_dir = "/Volumes/Untitled/0_Data/SUMS_Catalogs/Step5/"
 path = step4_dir + f'{galaxy}_photometry.csv'
 save = step5_dir + f'{galaxy}_colors.csv'
 
@@ -55,12 +53,12 @@ def AssessColor(data_x,data_y,data_x_err,zams_blue,zams_red):
 	for i,x in enumerate(data_x):
 		# If left of zams than consider it overlap 
 		# unless we prove that it is blue within errors
-		if x < (x_zams[i]):
+		if x < x_zams[i]:
 			color = 'overlap'
 
 		# If truly left of zams even within errors
 		# than blue
-		if x < (x_zams[i]-data_x_err[i]):
+		if x < x_zams[i] - data_x_err[i]:
 			color = 'blue'
 
 		# If right of zams than consider it overlap
