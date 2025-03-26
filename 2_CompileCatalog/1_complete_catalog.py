@@ -44,10 +44,10 @@ step_2 = False
 #   - averages for the residuals
 #   - fraction of the flux that was assigned to this source in each image.
 # - Write out a new file, one line per source, with the new averaged photometry. 
-step_3 = False
+step_3 = True
 # Create the full catalog
 # Link up the UVW1, UVM2, and UVW2 photometry for a given source. 
-step_4 = True
+step_4 = False
 
 ###############
 ## Functions ##
@@ -143,7 +143,7 @@ def mad(values,ra,dec,uvfilter,log_dir):
 ############
 
 total_start = time.time()
-data_dir = "/home/bethany/Projects/0_Data"
+data_dir = "/home/bethany/Projects/0_Data/"
 
 if step_1:        
     path = f"H:/Data/SUMS_Tractor_Data/{galaxy}/"
@@ -380,6 +380,9 @@ if step_3:
             continue
         # Drop bad rows / keep good rows, save how much we're dropping  
         s2_shape = df.shape
+        # Save all RESID_Frac => 0.3 so we can see what we are cutting 
+        df[np.abs(df.RESID_FRAC) >= 0.3].to_csv(log_dir+f'{galaxy}_{uvfilter}_resid_frac.csv',index=False)
+        # Otherwise drop
         df = df[np.abs(df.RESID_FRAC) < 0.3]
         rf_shape = df.shape
         df =df[df.SSS == 1.0]
@@ -393,7 +396,7 @@ if step_3:
                    f'Shape after dropping sss != 1: {sss_shape}',
                    f'Shape after dropping edge!= 1: {edge_shape}']
 
-        with open(log_dir+f'{galaxy}/Reductions_log_for_{uvfilter}.txt','w') as f:
+        with open(log_dir+f'reductions_log_for_{galaxy}_{uvfilter}.txt','w') as f:
             for phrase in phrases:
                 f.write(phrase)
                 f.write('\n')
