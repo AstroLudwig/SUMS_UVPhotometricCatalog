@@ -375,13 +375,10 @@ if step_3:
     for df,uvfilter in zip(files,uvfilters): 
         print(f'Running step 3 for uvfilter: {uvfilter}')
         savename = step3_dir+ f'{galaxy}_{uvfilter}_step3.csv'
-        if os.path.exists(savename):
-            print(f'Skipping {galaxy} {uvfilter}')
-            continue
         # Drop bad rows / keep good rows, save how much we're dropping  
         s2_shape = df.shape
-        # Save all RESID_Frac => 0.3 so we can see what we are cutting 
-        df[np.abs(df.RESID_FRAC) >= 0.3].to_csv(log_dir+f'{galaxy}_{uvfilter}_resid_frac.csv',index=False)
+        # Save here so we can see what the RESID_Frac cut will drop
+        df.to_csv(log_dir+f'{galaxy}_{uvfilter}_resid_frac_TOTAL.csv',index=False)
         # Otherwise drop
         df = df[np.abs(df.RESID_FRAC) < 0.3]
         rf_shape = df.shape
