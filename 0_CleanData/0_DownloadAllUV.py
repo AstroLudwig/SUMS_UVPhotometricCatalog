@@ -47,7 +47,7 @@ def wget_file(observation_id,uvfilter,path,imtype='sk'):
             
             print(f"Segment Saved: {segment}")
         except :
-            #print(f"Failed: {download}") # For debugging
+            print(f"Failed: {download}") # For debugging
             pass
     
     if len(found_urls) > 1 :
@@ -75,7 +75,7 @@ if run_all:
 # Download one obsid
 run_one = True
 if run_one:
-    obsid = str(45587) #32214
+    obsid = str(32214)
     wget_file(obsid,'um2','LMC/')
     wget_file(obsid,'uw2','LMC/')
     wget_file(obsid,'uw1','LMC/')
