@@ -1,11 +1,11 @@
 import sys 
+import os
 import glob
 sys.path.insert(0, 'lib/')
 from Heasarc import *
 
-
+# Run Heasarc Routine on Tractor Files in Given Path
 def run_heasarc(path):
-	#########################################
 	def format_filter(uvfilter):
 		if uvfilter == 'um2':
 			return 'uvm2'
@@ -16,7 +16,6 @@ def run_heasarc(path):
 		else:
 			print('Appropriate filter not found.')
 			return None
-
 
 	n = len(path)
 	folders = glob.glob(f'{path}*')
@@ -36,6 +35,6 @@ def run_heasarc(path):
 			continue
 	print("Run Complete")
 
-#path = f'/home/bethany/Desktop/SUMS_Tractor_Data/lmc/lmc_4558X/' # Change Path
-path = '/home/bethany/Desktop/SUMS_Tractor_Data/lmc_missing_file/'
+external_dir = '/Volumes/Seagate Portable Drive/Data/'
+path = external_dir+ 'SUMS_Tractor_Data/lmc/'
 run_heasarc(path)

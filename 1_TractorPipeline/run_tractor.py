@@ -1,22 +1,18 @@
-import sys
-# Gave Ylva code to run on cluster since it takes a long time. 
-sys.path.insert(0, '/data002/ygoetberg/Tractor/astrometry.net-0.85/')
-
 import matplotlib.pyplot as plt 
 import numpy as np 
 import os,time
+import pandas as pd
 import glob,sys
-
 from astropy.io import fits
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-
 sys.path.insert(0, 'lib/')
 from RetrieveSource import *
 from EstimateBackground import *
 from TractorTools import *
 from PSF import *
+import os
+data_dir = os.getenv("DATADIR")
 
-# Input ########################################################################################################
 # UVOT Filters 
 filters = ["um2","uw1","uw2"]
 
@@ -31,15 +27,16 @@ obsid = 45490
 galaxy = 'lmc'
 segment = 1
 extension = 2 
+folder = 'lmc_4549X'
 
-path = 'data'
-###########################################################################################################################
+external_dir = f'/Volumes/Seagate Portable Drive/Data/SUMS_Tractor_Data/{galaxy}/'
+path = external_dir + folder
 
 # Get Files
 # This is the MPCS catalog for this field. Always ends in .full.dat
-cname = f'{path}/sw000{obsid}00{segment}{uvfilter}_sk_{obsid}_{segment}_{extension}.full.dat' 
+cname = path + f'sw000{obsid}00{segment}{uvfilter}_sk_{obsid}_{segment}_{extension}.full.dat' 
 # This is the data. Always ends in .new
-fname = f'{path}/sw000{obsid}00{segment}{uvfilter}_sk_{obsid}_{segment}_{extension}.new' 
+fname = path + f'sw000{obsid}00{segment}{uvfilter}_sk_{obsid}_{segment}_{extension}.new' 
 # Where to save
 directory = f"photometry/{galaxy}/{obsid}/"
 # What to save output as. All the other files that are saved are based on this name.
@@ -61,7 +58,7 @@ start = time.time()
 
 print('---Getting Catalog---')
 source = get_meta().with_hdu(hdu=hdr,
-                 usno_catalog=f'usno/{galaxy}_anti_match_USNO_inf.dat', # For removing bright things not in mcps
+                 usno_catalog=data_dir+f'0_SUMS_Catalogs/Calib/USNO/{galaxy}_anti_match_USNO_inf.dat', # For removing bright things not in mcps
                  optical_catalog=cname,
                  directory=directory,
                  Umag_cutoff=20.5,
@@ -84,7 +81,7 @@ pix_scale = np.abs(source.cdelt)*3600.
 
 psf_object = psf_fit(pixel_per_arsecond = 1/pix_scale,
                      uvfilter = uvfilter, width = 23,
-                     cog_file='calib/swureef20041120v104.fits').psf
+                     cog_file=data_dir+'0_SUMS_Catalogs/Calib/swureef20041120v104.fits').psf
 
 
 print('---Running Tractor---')
