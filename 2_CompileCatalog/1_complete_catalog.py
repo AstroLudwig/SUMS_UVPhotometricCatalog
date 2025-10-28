@@ -7,6 +7,8 @@ from scipy.integrate import simpson
 from astropy.io import fits
 import astropy.units as u
 from astropy.coordinates import SkyCoord
+data_dir = os.getenv("DATADIR")
+complete_catalog_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/"
 
 pd.options.mode.chained_assignment = None
 # This code puts together a final catalog after Tractor and Heasarc have been run. 
@@ -25,14 +27,10 @@ galaxy = 'smc'
 # - number of other sources within 5", 2.5", 1"
 # - distance to the closest object
 # - fraction of flux that was assigned to this source by tractor.
-# This takes some time, so first_half switch allows you to do it in chunks. 
 step_1 = False
-run_first_half = False
-run_all = False
 # Combines CSVs with all the individual sources from each of the fields. 
 # Adds a column that says which image a given measurement came from. 
 step_2 = False
-
 # Average together different observations of the same source to have a final measurement. 
 # - Drop certain measurements:
 #   -  Anything near an edge with an 'SSS' senstivity flag 
@@ -44,10 +42,10 @@ step_2 = False
 #   - averages for the residuals
 #   - fraction of the flux that was assigned to this source in each image.
 # - Write out a new file, one line per source, with the new averaged photometry. 
-step_3 = True
+step_3 = False
 # Create the full catalog
 # Link up the UVW1, UVM2, and UVW2 photometry for a given source. 
-step_4 = False
+step_4 = True
 
 ###############
 ## Functions ##
@@ -137,27 +135,43 @@ def mad(values,ra,dec,uvfilter,log_dir):
             with open(filename, "a") as file_object:
                 file_object.write(line)
         return np.ones(len(values))
+# Only search close sources within coord_width degrees
+def get_nearby_rows(row, df, width):
+    rows = df[(df['ra']<row['ra']+width) & (df['ra']>row['ra']-width) & (df['dec']<row['dec']+width) & (df['dec']>row['dec']-width)]
+    return rows
+# If the closest source is within max_dist arcsec, return it
+def get_closest_row(row, df):
+    # Check all sources that are within a tenth of an arcsecond
+    # Based on fiddling with topcat self cross match
+    max_dist = 0.1 # arcsec
+    coord_width = 0.0025 # degrees
+
+    rows = get_nearby_rows(row, df, width=coord_width)
+    # Remove self
+    rows = rows[rows['temp_id'] != row['temp_id']]
+    if len(rows) > 0:
+        coords1 = SkyCoord(ra=row['ra'], dec=row['dec'], unit='deg')
+        coords2 = SkyCoord(ra=rows['ra'].values, dec=rows['dec'].values, unit='deg')
+        sep = coords1.separation(coords2).arcsec
+        min_idx = np.argmin(sep)
+        min_dist = np.min(sep)
+        if min_dist <= max_dist:        
+            return rows.iloc[min_idx], min_dist
+        return None, None
+    return None, None
 
 ############
 ## Step 1 ##
 ############
 
 total_start = time.time()
-data_dir = "/home/bethany/Projects/0_Data/"
+
 
 if step_1:        
     path = f"H:/Data/SUMS_Tractor_Data/{galaxy}/"
     cat_path = f"H:/Data/SUMS_Tractor_Data/MatchedByPixel/{galaxy}/"
-    save_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/"
     folders = glob.glob(f'{path}*X/*/')
     n = len(path)
-
-    # This step takes a long time to run, so splitting each galaxy in half 
-    # To run separately 
-    n_folders = int(np.ceil(len(folders)/2)) 
-    
-    if run_all == False:
-        folders = folders[:n_folders] if run_first_half else folders[n_folders:]
 
     counter = 0 
     for f in folders: 
@@ -166,7 +180,7 @@ if step_1:
         uvfilter = f[n+23:n+26]
         segment = f[-4]
         extension = f[-2]
-        step1_file_save = save_dir + f'Step1/{galaxy}/{obsid}_{uvfilter}_{segment}_{extension}_step1.csv'
+        step1_file_save = complete_catalog_dir + f'Step1/{galaxy}/{obsid}_{uvfilter}_{segment}_{extension}_step1.csv'
 
         # Code Start 
         if os.path.exists(step1_file_save):
@@ -258,8 +272,8 @@ if step_1:
 
 if step_2:   
     path = f"H:/Data/SUMS_Tractor_Data/{galaxy}/"
-    step1_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step1/"
-    step2_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step2/"
+    step1_dir = complete_catalog_dir  + "Step1/"
+    step2_dir = complete_catalog_dir  + "Step2/"
     n = len(path)
 
     # Loop over each filter
@@ -307,8 +321,8 @@ if step_2:
 ############
 
 if step_3: 
-    step2_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step2/"
-    step3_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step3/"
+    step2_dir = complete_catalog_dir  + "Step2/"
+    step3_dir = complete_catalog_dir + "Step3/"
     log_dir = data_dir + "0_SUMS_Catalogs/Logs/"
 
     # Get files from step 2 
@@ -316,57 +330,15 @@ if step_3:
     s2_uw1 = pd.read_csv(step2_dir + f'{galaxy}_uw1_step2.csv')
     s2_uw2 = pd.read_csv(step2_dir + f'{galaxy}_uw2_step2.csv')
 
-    if galaxy == 'smc':
-        # Images with tracking issues 
-        sus_uvw1 = ['40415_1_3', '40416_1_1', '40416_1_2', '40421_2_1', '40421_2_2', 
-                    '40421_4_2', '40423_1_1', '40426_4_2', '40427_3_1', '40427_3_2', 
-                    '40428_2_1', '40428_2_2', '40429_1_2', '40430_2_2', '40431_2_1', 
-                    '40433_1_1', '40434_2_2', '40435_3_1', '40436_2_1', '40436_2_2', 
-                    '40445_3_2', '40445_3_3', '40448_2_4', '40454_1_2', '40457_1_2', '40458_2_2', '40461_1_4']
+    # From 0_CleanData get list of files to skip
+    bad_files = pd.read_csv('../0_CleanData/files_to_skip.csv')
 
-        sus_uvm2 = ['40415_1_2', '40416_1_2', '40419_2_1', '40421_2_2', '40421_4_1',
-                   '40421_4_3', '40426_4_2', '40427_3_1', '40428_2_1', '40428_2_3',
-                   '40429_1_2', '40433_1_1', '40433_4_1', '40434_2_2', '40436_2_1',
-                   '40436_2_2', '40444_1_2', '40445_3_1', '40451_1_3', '40453_1_2',
-                   '40454_1_2', '40457_1_2']
+    bad_files = bad_files[bad_files.galaxy == galaxy]
 
-        sus_uvw2 = ['40415_1_2', '40419_1_2', '40419_2_1', '40421_4_1', '40421_4_4', 
-                    '40425_4_1', '40425_4_3', '40426_4_1', '40426_4_2', '40427_3_1', 
-                    '40427_3_2', '40428_1_2', '40428_2_2', '40429_1_2', '40430_3_1', 
-                    '40431_2_1', '40433_1_1', '40433_4_1', '40436_2_2', '40440_2_1', 
-                    '40445_3_1', '40445_3_2', '40446_2_1', '40446_3_2', '40451_1_1', 
-                    '40454_1_2', '40457_1_2', '40458_2_2', '40459_2_1', '40461_2_2', 
-                    '40461_2_3', '40463_2_1', '40463_3_2']
-        
-    if galaxy == 'lmc': 
-        # Images with tracking issues     
-        sus_uvw1 = ['45433_1_3','45435_1_1','45438_2_1','45440_1_2','45445_1_1','45448_1_1',
-                    '45449_1_3','45471_1_2','45484_3_1','45490_1_4','45496_1_1','45512_2_1',
-                    '45513_2_1','45515_2_2','45521_4_1','45522_4_1','45522_4_2','45524_1_4',
-                    '45524_2_1','45536_1_1','45537_1_4','45542_1_3','45544_2_1','45554_3_1',
-                    '45556_2_1','45556_2_2','45557_3_1','45560_1_2','45560_2_1','45572_1_1',
-                    '45578_2_2','45580_3_3','45581_4_1']
-        
-        sus_uvm2 = ['45424_1_3', '45432_3_1', '45433_1_3', '45435_1_1', '45442_1_1', '45442_1_2', '45444_2_1',
-                    '45448_1_1', '45459_2_3', '45461_4_2', '45471_1_1', '45471_1_2', '45472_1_2', '45484_3_1',
-                    '45486_2_1', '45487_1_1', '45490_1_4', '45492_1_3', '45496_1_1', '45505_1_1', '45512_2_1',
-                    '45512_2_2', '45512_3_1', '45513_2_1', '45515_1_1', '45516_4_1', '45519_2_1', '45522_4_1',
-                    '45524_1_4', '45533_1_3', '45534_1_4', '45537_1_4', '45543_1_1', '45546_3_1', '45548_1_1',
-                    '45550_1_1', '45554_3_1', '45555_1_1', '45555_1_2', '45557_3_1', '45558_3_2', '45560_2_1',
-                    '45564_1_1', '45569_2_2', '45580_3_3', '45582_2_1']
-            
-        sus_uvw2 = ['45422_1_2','45424_1_3','45433_1_3','45434_1_1','45435_1_1','45437_2_1','45438_2_1','45442_1_1',
-                    '45449_1_3','45450_2_2','45459_2_3','45472_1_2','45482_1_2','45484_3_1','45490_1_4','45492_1_3',
-                    '45505_1_1','45512_2_1','45513_2_1','45515_1_1','45521_4_1','45522_4_1','45522_4_2','45524_1_4',
-                    '45527_1_2','45530_1_2','45533_1_3','45535_2_1','45536_1_1','45537_2_2','45542_1_3','45543_1_2',
-                    '45543_1_3','45543_1_5','45544_2_2','45544_3_3','45547_2_1','45548_2_4','45550_1_1','45553_3_1',
-                    '45554_2_1','45556_2_1','45556_3_1','45557_3_1','45560_1_2','45560_2_1','45561_1_3','45569_2_2',
-                    '45578_2_2','45580_3_1','45580_3_2','45580_3_3','45580_3_4','45581_2_4','45581_4_1']
-    
     # Drop images with tracking issues 
-    s2_um2 = s2_um2[~s2_um2.filename.isin(sus_uvm2)].reset_index(drop=True)
-    s2_uw1 = s2_uw1[~s2_uw1.filename.isin(sus_uvw1)].reset_index(drop=True)
-    s2_uw2 = s2_uw2[~s2_uw2.filename.isin(sus_uvw2)].reset_index(drop=True)
+    s2_um2 = s2_um2[~s2_um2.filename.isin(bad_files.loc[bad_files['filter'] == 'uvm2', 'files'])].reset_index(drop=True)
+    s2_uw1 = s2_uw1[~s2_uw1.filename.isin(bad_files.loc[bad_files['filter'] == 'uvw1', 'files'])].reset_index(drop=True)
+    s2_uw2 = s2_uw2[~s2_uw2.filename.isin(bad_files.loc[bad_files['filter'] == 'uvw2', 'files'])].reset_index(drop=True)
     
     files = [s2_um2,s2_uw1,s2_uw2]
     uvfilters = ['uvm2','uvw1','uvw2']
@@ -498,11 +470,12 @@ if step_3:
 ## Step 4 ##
 ############
 if step_4:
-    step3_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step3/"
-    step4_dir = data_dir + "0_SUMS_Catalogs/CompleteCatalog/Step4/"
+    step3_dir = complete_catalog_dir  + "Step3/"
+    step4_dir = complete_catalog_dir  + "Step4/"
 
     print(f'Running step 4 on {galaxy}')
 
+    #### FORMAT COLUMNS AND MERGE ####
     filter_specific_keys = ['num_obs', 'num_outliers','mag', 'mag_err', 'flux_frac', 'resid_frac', 'mag_std', 'flux_frac_std', 'resid_frac_std', 'std_unweighted', 
                             'num5', 'num2p5', 'num1', 'closest_mean', 'closest_min', 'closest_std', 'dist_moved']
 
@@ -535,13 +508,86 @@ if step_4:
     # Drop some mcps cols 
     step_4_df = step_4_df.drop(columns=mcps_drop_cols)
     step_4_df = step_4_df.reset_index(drop=True)
-    step_4_df.to_csv(step4_dir+f'{galaxy}_photometry.csv',index=False)
-    print(step_4_df.shape)
 
+
+    #### DROP DUPLICATES ####
+    step_4_df['temp_id'] = np.arange(len(step_4_df))
+
+    new_df = step_4_df.copy()
+    # Get a list of columns ignoring ra/dec because of float precision and the new key we just made
+    columns = step_4_df.columns[2:-1]
+    uv_columns = columns[8:]
+    optical_columns = columns[:8]
+
+    keep = []
+    drop = []
+    for ind, row in step_4_df.iterrows():
+        # Progress print
+        if ind % 100_000 == 0:
+            print(f"Processed {ind/step_4_df.shape[0]*100:.2f}% of rows")
+
+        # Get the closest row
+        closest_row, dist = get_closest_row(row, step_4_df)
+
+        dupe_id = int(closest_row['temp_id']) if closest_row is not None else None
+
+        # No close row within threshold
+        if dupe_id is None:
+            continue
+            
+        # Did we already account for it?
+        if (dupe_id in keep) or (dupe_id in drop):
+            continue
+        
+        # If rows are exactly the same then we know theyre duplicates
+        same_rows = step_4_df.loc[ind, columns].equals(step_4_df.loc[dupe_id, columns])
+        if same_rows == False:
+            print(f"Rows are completely identical")
+
+        # If they are not exactly the same, they may have some missing UV values
+        # First check if the optical values are the same, 
+        # then replace nan values within finite value in other row
+
+        # MCPS has its own duplicates, but we don't remove those here.
+        else:
+            # If the optical values are not the same but they're both finite values then don't consider it a duplicate
+            for col in optical_columns:
+                if (step_4_df.loc[ind, col] != step_4_df.loc[dupe_id, col]) and np.isfinite(step_4_df.loc[ind, col]) and np.isfinite(step_4_df.loc[dupe_id, col]):
+                    continue
+
+            # If the dupe row has values the other row doesnt, fill them in
+            for col in uv_columns:
+                if pd.isna(step_4_df.loc[ind, col]) and not pd.isna(step_4_df.loc[dupe_id, col]):
+                    new_df.loc[ind, col] = step_4_df.loc[dupe_id, col]
+            
+            # Check theyre the same now, including if both are nans
+            same_rows = new_df.loc[ind, columns].equals(new_df.loc[dupe_id, columns])
+            
+            # The above line doesn't always work, may be a data type issue, so double check each column
+            if same_rows == False:
+                # First check if the different rows are all nans in one of the rows
+                for col in uv_columns:
+                    if new_df.loc[ind,col] != new_df.loc[dupe_id,col]:
+                        # Are both finite?
+                        if np.isfinite(new_df.loc[ind,col]) and np.isfinite(new_df.loc[dupe_id,col]):
+                            print(f"After filling, row {ind} is still not identical to row {dupe_id} for column {col}")
+
+        # Keep the current row for comparison when testing
+        keep.append(ind)
+        # Drop the other row
+        drop.append(dupe_id)
+
+    print(f"Dropping {len(drop)} duplicate rows out of {step_4_df.shape[0]} total rows")
+    new_df = new_df[~new_df['temp_id'].isin(drop)].reset_index(drop=True)
+
+    # Drop temp_id column
+    new_df = new_df.drop(columns=['temp_id'])
+
+    # Save
+    new_df.to_csv(step4_dir+f'{galaxy}_photometry.csv',index=False)
 
 ##########
 # Finish # 
 ##########
-
 print(f'Total Time Taken: {(time.time() - total_start)/60} minutes')
 print("Step Complete") 
