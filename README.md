@@ -2,12 +2,20 @@
 The UV Photometric Catalog and Stripped Star Candidate Selection
 
 ![The Complete Catalog](/2_CompileCatalog/sums_photometry.png "SUMS Catalog")
-# Authors & License
-Copyright XX-XX Bethany Ludwig (KU Leuven), Maria Drout (University of Toronto), Ylva Gotberg (Institute of Science and Technology Austria), Dustin Lang (Perimeter Institute), and Alexander Laroche (University of Toronto).<br>
+# License & Citation
+If you use this code or data, please cite both:<br> 
 
-Licensed under XXXX; see [LICENSE](XXX).<br>
+**Paper:**  <br> 
+Ludwig, B. et al. (2025), *The Astrophysical Journal*, [DOI link once available]  <br> 
 
-Please contact the first author should you have any questions.<br>
+**Repository (archived):**  <br> 
+Ludwig, B. (2025). *Repository name*. Zenodo. [DOI link after upload]<br> 
+
+**Licenses:**  <br> 
+Code — MIT License  <br> 
+Data — CC BY 4.0<br> 
+
+Please contact Bethany Ludwig should you have any questions.<br>
 
 # Abstract & Summary
 This repository contains all code used in this project. Below is a brief summary, please consult our paper for further details.<br> 
