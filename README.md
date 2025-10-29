@@ -15,7 +15,7 @@ Ludwig, B. (2025). *Repository name*. Zenodo. [DOI link after upload]<br>
 Code — MIT License  <br> 
 Data — CC BY 4.0<br> 
 
-Please contact Bethany Ludwig should you have any questions.<br>
+Questions or feedback? I’d be happy to hear from you — please contact Dr. Bethany Ludwig. <br>
 
 # Abstract & Summary
 This repository contains all code used in this project. Below is a brief summary, please consult our paper for further details.<br> 
