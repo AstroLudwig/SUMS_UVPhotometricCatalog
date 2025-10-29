@@ -20,7 +20,7 @@ In 1_TractorPipeline we use [the Tractor](https://github.com/dstndstn/tractor) f
 - [swusenscorr20041120v005.fits](https://heasarc.gsfc.nasa.gov/docs/heasarc/caldb/swift/docs/uvot/uvot_release_history.html)
 - [sssfile5.fits.gz](https://swift.gsfc.nasa.gov/analysis/uvot_digest/sss_check.html)
   
-In 2_CompileCatalog we assemble the catalog, resulting in 734,862 sources in three UV filters to a depth of ~20 Vega mag. The full SUMS UV catalog for the LMC and SMC can be found in the Catalogs folder. Please note that these magnitudes are in Vega with no extinction correction. A table with the AB conversion and our assumed extinction correction can be found in 0_CleanData/ExtinctionAndVega2AB.csv and in the appendix of our paper. <br>
+In 2_CompileCatalog we assemble the catalog, resulting in 734,862 sources in three UV filters to a depth of ~20 Vega mag. The full SUMS UV catalog for the LMC and SMC can be found in the Catalogs folder. Please note that these magnitudes are in Vega with no extinction correction. A table with the AB conversion and our assumed extinction correction can be found in 0_CleanData and in the appendix of our paper. <br>
   
 In 3_ValidationTesting we perform a series of validation tests on the photometry pipeline.<br>  
   
