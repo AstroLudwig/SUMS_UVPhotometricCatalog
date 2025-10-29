@@ -18,7 +18,7 @@ In 0_CleanData we obtain archival Swift-UVOT images of the LMC and SMC. [Astrome
    
 In 1_TractorPipeline we use [the Tractor](https://github.com/dstndstn/tractor) forward modeling software to perform PSF photometry on these images. The photometry is converted to magnitudes using the standard Swift-UVOT calibration tools provided by [HEASARC](https://heasarc.gsfc.nasa.gov/docs/software.html) with the following calibration files:<br>
 - [swusenscorr20041120v005.fits](https://heasarc.gsfc.nasa.gov/docs/heasarc/caldb/swift/docs/uvot/uvot_release_history.html)
-- [sssfile5]https://swift.gsfc.nasa.gov/analysis/uvot_digest/sss_check.html)
+- [sssfile5](https://swift.gsfc.nasa.gov/analysis/uvot_digest/sss_check.html)
   
 In 2_CompileCatalog we assemble the catalog, resulting in 734,862 sources in three UV filters to a depth of ~20 Vega mag.<br>
   
