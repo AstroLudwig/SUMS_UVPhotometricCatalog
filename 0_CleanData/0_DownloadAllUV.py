@@ -9,6 +9,8 @@ import time
 # Download Files From: 
 # https://www.swift.ac.uk/swift_live/index.php#advanced
 # Note that after files are downloaded, astrometry with custom index files is run 
+# These files can be found here:
+# https://zenodo.org/records/7600727/files/S311_astrometry_index_files.zip?download=1
 # Independently, obsid: 32214 is also downloaded and used for the smc
 
 #####################################################################
