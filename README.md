@@ -38,7 +38,7 @@ In 5_AssessCandidates we assess the properties of our candidates including their
    
 In 6_OtherBlue we assess the potential contamination from early main-sequence stars and other UV excess systems including foreground and background sources.<br>  
 
-Disclaimer: Before using data it is imperative to understand the contents, caveats, and limitations of that work. In our paper, the contents are described in Section 4.4, including a description of the flags provided. The caveats and limitations are summarized in Appendix A. Please have a look at these prior to your analysis. <br>
+**Disclaimer:** Before using data it is imperative to understand the contents, caveats, and limitations of that work. In our paper, the contents are described in Section 4.4, including a description of the flags provided. The caveats and limitations are summarized in Appendix A. Please have a look at these prior to your analysis. <br>
 
 Happy hunting! :sparkles:
 
