@@ -38,6 +38,6 @@ In 5_AssessCandidates we assess the properties of our candidates including their
    
 In 6_OtherBlue we assess the potential contamination from early main-sequence stars and other UV excess systems including foreground and background sources.<br>  
    
-This survey lays the groundwork for the first systematic census of stripped stars and opens new windows into binary evolution and massive star populations.  
+Happy hunting! :sparkles:
 
 
