@@ -6,10 +6,10 @@ The UV Photometric Catalog and Stripped Star Candidate Selection
 If you use this code or data, please cite both:<br> 
 
 **Paper:**  <br> 
-Ludwig, B. et al. (2025), *The Astrophysical Journal*, [DOI link once available]  <br> 
+Ludwig, B. et al. (2025), *The Astrophysical Journal*, Submitted  <br> 
 
 **Repository (archived):**  <br> 
-Ludwig, B. (2025). *Repository name*. Zenodo. [DOI link after upload]<br> 
+Ludwig, B. et al. (2025). *The SUMS UV Photometric Catalog*. Zenodo. <br> 
 
 **Licenses:**  <br> 
 Code — MIT License  <br> 
@@ -41,5 +41,6 @@ In 6_OtherBlue we assess the potential contamination from early main-sequence st
 **Disclaimer:** Before using data it is imperative to understand the contents, caveats, and limitations of that work. In our paper, the contents are described in Section 4.4, including a description of the flags provided. The caveats and limitations are summarized in Appendix A. Please have a look at these prior to your analysis. <br>
 
 Happy hunting! :sparkles:
+
 
 
