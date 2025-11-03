@@ -1,5 +1,5 @@
 # The SUMS UV Photometric Catalog
-UV photometry of 700,000+ Magellanic Cloud sources.
+UV photometry of 700,000+ Magellanic Cloud sources from archival Swift-UVOT images.
 
 # License & Citation
 If you use this code or data, please cite both:<br> 
@@ -15,6 +15,9 @@ Code — MIT License  <br>
 Data — CC BY 4.0<br> 
 
 Questions or feedback? I’d be happy to hear from you — please contact Dr. Bethany Ludwig. <br>
+
+# Disclaimer:
+Before using data it is imperative to understand the contents, caveats, and limitations of that work. Section 4.4 of our paper details the catalog contents, including flag definitions, while Appendix A summarizes the caveats and limitations. For convenience, we have also briefly summarized [the contents](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CONTENTS.md) and [caveats](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CAVEATS.md) in the Catalogs folder. Please have a look at these prior to your analysis. <br>
 
 # Abstract & Summary
 This repository contains all code used in this project. Below is a brief summary, please consult our paper for further details.<br> 
@@ -37,10 +40,8 @@ In 5_AssessCandidates we assess the properties of our candidates including their
    
 In 6_OtherBlue we assess the potential contamination from early main-sequence stars and other UV excess systems including foreground and background sources.<br>  
 
-#### Disclaimer:
-Before using data it is imperative to understand the contents, caveats, and limitations of that work. In our paper, the contents are described in Section 4.4, including a description of the flags provided. The caveats and limitations are summarized in Appendix A. Please have a look at these prior to your analysis. <br>
+Ready your code — the UV sky awaits. :sparkles:
 
-Happy hunting! :sparkles:
 
 
 
