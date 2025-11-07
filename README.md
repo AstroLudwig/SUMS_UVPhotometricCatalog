@@ -8,7 +8,7 @@ If you use this code or data, please cite both:<br>
 Ludwig, B. et al. (2025), The Stripped-Star Ultraviolet Magellanic Cloud Survey (SUMS): The UV Photometric Catalog and Stripped Star Candidate Selection *The Astrophysical Journal*, Submitted  <br> 
 
 **Repository:**  <br> 
-Ludwig, B. et al. (2025). *The SUMS UV Photometric Catalog*. Zenodo. <br> 
+Ludwig, B., Drout, M. R., Gotberg, Y., Lang, D., & Laroche, A. 2025, The SUMS UV Photometric Catalog and Pipeline, v1.0.0, Zenodo, doi:10.5281/zenodo.17551744 <br> 
 
 **Licenses:**  <br> 
 Code — MIT License  <br> 
@@ -38,9 +38,12 @@ In 4_FindCandidates we identify sources with excess UV light compared to main-se
   
 In 5_AssessCandidates we assess the properties of our candidates including their overall brightnesses, SEDS, and spatial distribution.<br>   
    
-In 6_OtherBlue we assess the potential contamination from early main-sequence stars and other UV excess systems including foreground and background sources.<br>  
+In 6_OtherBlue we assess the potential contamination from early main-sequence stars and other UV excess systems including foreground and background sources.<br> 
+
+Finally, the SUMS Catalog is located in the Catalogs folder. It is comprised of three tables and two README files which describe (i) [the contents](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/v1.0.0/Catalogs/CONTENTS.md) and (ii) [the caveats](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CAVEATS.md) of the catalog.   
 
 Ready your code — the UV sky awaits. :sparkles:
+
 
 
 
