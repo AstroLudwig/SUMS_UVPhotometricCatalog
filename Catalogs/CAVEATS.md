@@ -27,7 +27,7 @@ Degeneracies can occur between the count rates that the Tractor assigns to sourc
 
 In our mock-source injection test, the divergence begins to appear once stars are closer than ~2-2.5'' (i.e. within the FWHM of the Swift-UVOT PSF and is more extreme for the fainter object. 
 
-_To help identify nearby source flux misattribution, the catalog includes the fraction of the flux within a 5" radius attributed to a given source, the distance to the nearest neighbor, and the number of neighbors within 2.5 and 5"._
+_To help identify nearby source flux misattribution, the catalog includes the fraction of the flux within a 5" radius attributed to a given source, the distance to the nearest neighbor, and the number of neighbors within 2.5'' and 5''._
 
 ## :pushpin: PSF Shape Variations
 
@@ -38,7 +38,7 @@ We use a constant theoretical model of the Swift-UVOT PSF, however, there are tw
 
 To account for this, we add a 5% systematic error to the measured count rates computed with the Tractor and we validate our pipeline against standard Swift routines in less crowded regions. 
 
-_We also establish the `residual fraction' column as an indicator of how the flux of a source could have been underestimated, therefore suggesting that the fit may not have been as robust._ 
+_We also establish the 'residual fraction' column as an indicator of how the flux of a source could have been underestimated, therefore suggesting that the fit may not have been as robust._ 
 
 ## :pushpin: UV-Optical Source Mismatches
 We calculate UV magnitudes by performing forced-photometry at the location of MCPS sources. However, the MCPS source and the Swift-UVOT source may become mismatched for the following reasons: 
