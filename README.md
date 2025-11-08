@@ -1,18 +1,18 @@
 # The SUMS UV Photometric Catalog
-UV photometry of 700,000+ Magellanic Cloud sources from archival Swift-UVOT images.
+UV photometry of 700,000+ Magellanic Cloud sources from [archival Swift-UVOT images](https://www.swift.ac.uk/swift_live/index.php#advanced).
 
 # License & Citation
 If you use this code or data, please cite both:<br> 
 
-**Paper:**  <br> 
+**[Paper](https://arxiv.org/pdf/2505.18632v1):**  <br> 
 Ludwig, B., Drout, M. R., Gotberg, Y., Lang, D., & Laroche, A. 2025, The Stripped-Star Ultraviolet Magellanic Cloud Survey (SUMS): The UV Photometric Catalog and Stripped Star Candidate Selection *The Astrophysical Journal*, Submitted  <br> 
 
-**Repository:**  <br> 
+**[Repository](https://doi.org/10.5281/zenodo.17551743):**  <br> 
 Ludwig, B., Drout, M. R., Gotberg, Y., Lang, D., & Laroche, A. 2025, The SUMS UV Photometric Catalog and Pipeline, v1.0.0, Zenodo, doi:10.5281/zenodo.17551743 <br> 
 
 **Licenses:**  <br> 
-Code — MIT License  <br> 
-Data — CC BY 4.0<br> 
+Code — [MIT License](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/LICENSE)  <br> 
+Data — [CC BY 4.0](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/LICENSE_DATA)<br> 
 
 Questions or feedback? I’d be happy to hear from you — please contact Dr. Bethany Ludwig. <br>
 
@@ -43,6 +43,7 @@ In 6_OtherBlue we assess the potential contamination from early main-sequence st
 Finally, the SUMS Catalog is located in the Catalogs folder. It is comprised of three tables and two README files which describe (i) [the contents](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/v1.0.0/Catalogs/CONTENTS.md) and (ii) [the caveats](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CAVEATS.md) of the catalog.   
 
 Ready your code — the UV sky awaits. :sparkles:
+
 
 
 
