@@ -1,7 +1,8 @@
 # Caveats and Limitations of the SUMS UV Photometric Catalog
-There are a number of caveats and limitations to be aware of when using this catalog. 
-Here, we provide a short summary for a number of these issues, as well as flags that are included in the final catalog to help assess and mitigate their effects.
-Further details can be found in the Appendix of our paper and the sections referenced therein. 
+There are some caveats and limitations to be aware of when using this catalog. 
+Here, we provide a short summary for these issues, as well as flags that are included in the final catalog to help assess and mitigate their effects.
+
+_Further details can be found in the appendix of our paper and the sections referenced therein._ 
 
 ## :pushpin: Incomplete Source Coverage:
 This UV catalog is not complete, even for sources above the detection threshold. 
