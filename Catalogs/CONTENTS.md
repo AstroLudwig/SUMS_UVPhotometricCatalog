@@ -66,4 +66,4 @@ The below table describes columns in the catalog. Columns specific to the _candi
 - Excellent (E): Average UV flux fraction is >40%, at least 6 of the 7 photometric bands present, SED is highly consistent with models. <br>
 - Good (G): Average UV flux fraction is >10% if closest source is further than 2.5'' otherwise > 25%, at least 5 of the 7 photometric bands present, SED is consistent with models.  <br>
 
-  Additional details on these rankings can be found in Section 5 of our paper. <br>
+  _Additional details on these rankings can be found in Section 5 of our paper._ <br>
