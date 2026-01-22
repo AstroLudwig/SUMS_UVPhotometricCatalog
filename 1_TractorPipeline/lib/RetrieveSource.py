@@ -6,6 +6,9 @@ PURPOSE:
     get_meta() is a class. You give it an ra/dec and it gives you the SWIFT field
     with the objects in them. It includes the coordinates, regions, catalog information,
     and intial guesses for flux. The entire object could be saved with pickle. 
+AUTHORSHIP:
+    Primary Author: Bethany Ludwig
+    Secondary Author: Maria Drout 
 Notes: 
 """
 

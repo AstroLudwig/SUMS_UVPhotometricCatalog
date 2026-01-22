@@ -1,3 +1,14 @@
+"""
+NAME:
+    PSF Models
+PURPOSE:
+    Functions to create and fit PSF models to data.
+AUTHORSHIP:
+    Primary Author: Bethany Ludwig
+Notes: 
+"""
+
+
 import numpy as np 
 import matplotlib.pyplot as plt 
 from scipy.integrate import quad

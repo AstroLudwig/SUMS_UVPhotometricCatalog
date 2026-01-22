@@ -1,11 +1,22 @@
+"""
+NAME:
+    Estimate Background
+PURPOSE:
+    A class to estimate the background and background rms of SWIFT UVOT images using photutils Background2D class.
+    Also calculates an error image for use in Tractor photometry.
+AUTHORSHIP:
+    Primary Author: Maria Drout 
+    Secondary Author: Bethany Ludwig
+Notes: 
+"""
+
 from astropy.stats import sigma_clipped_stats, SigmaClip
 from photutils import make_source_mask
 from photutils import Background2D, SExtractorBackground
 import numpy as np
 from photutils import CircularAperture
 from photutils import aperture_photometry
-# Primary Author: Maria Drout
-# Secondary Author: Bethany Ludwig
+
 
 class BkgdEstimator:
 
@@ -29,7 +40,7 @@ class BkgdEstimator:
         print('Masked Sigma Clipped Stats Original Data:',self.mean,self.median,self.std)
         
         # Sigma clip bright obvious things to avoid biasing the background estimate
-        # TO DO: New photutils need to change sigma to snr
+        # Note that photutils update requires changing sigma to snr. 
         self.sigma_clip = SigmaClip(sigma=3) 
         # Apply the SExtractor algorithm to our estimation
         self.bkg_estimator = SExtractorBackground() 

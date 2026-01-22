@@ -1,11 +1,11 @@
 """
 NAME:
-    Photometry Retrieve Source 
+    Tractor Tools
 PURPOSE:
-    Automate process of pulling swift fields and finding the Zaritsky sources in them.
-    Blue Source Retrieval is a class. You give it an ra/dec and it gives you the SWIFT field
-    with the objects in them. It includes the coordinates, regions, catalog information,
-    and intial guesses for flux. The entire object could be saved with pickle. 
+    A class to handle Tractor photometry on SWIFT UVOT images.
+AUTHORSHIP:
+    Primary Author: Bethany Ludwig
+    Secondary Authors: Maria Drout, Dustin Lang 
 Notes: 
 """	
 

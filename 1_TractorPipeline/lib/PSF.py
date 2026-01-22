@@ -1,3 +1,13 @@
+"""
+NAME:
+    PSF 
+PURPOSE:
+    Class to create 2d pixelated PSF models from UVOT CoG data.
+AUTHORSHIP:
+    Primary Author: Bethany Ludwig
+Notes: 
+"""
+
 import numpy as np 
 import PSF_Models as Models
 import matplotlib.pyplot as plt 
@@ -141,7 +151,6 @@ class psf_fit():
     def cumul_moff(self,r,B):
         a = self.FWHM / (2 * np.sqrt(2**(1/B) - 1))
         top = (1+(25/a**2))**B * (1 + (r**2/a**2))**(-B) * (-r**2 + (-1 + (1+(r**2/a**2))**B)*a**2)
-
         bottom = (-25 + (-1 + (1+(25/a**2))**B) * a**2)
 
         return top / bottom 
@@ -153,15 +162,12 @@ class psf_fit():
     
     def moff(self,r,Beta):
         self.alpha = self.FWHM / (2 * np.sqrt(2**(1/Beta) - 1))
-        
+
         return (2 * (Beta -1) / self.alpha **2) * (1 + r**2/self.alpha**2)**(-Beta)
 
  
     def two_gauss(self,r,sigma,A1,A2):
         r0 = 0 
-
-        #sigma = FWHM / (2 * np.sqrt(2 * np.log(2)))
-
         gauss1 = (A1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(-(r-r0)**2 / (2 *sigma**2))
         gauss2 = (A2 / (sigma * np.sqrt(2 * np.pi))) * np.exp(-(r-r0)**2 / (2 *sigma**2))
 

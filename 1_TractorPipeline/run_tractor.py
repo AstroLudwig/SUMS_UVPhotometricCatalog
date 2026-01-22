@@ -1,3 +1,14 @@
+"""
+NAME:
+    Run Tractor Pipeline
+PURPOSE:
+    Automate Running Tractor on SWIFT UVOT Images
+AUTHORSHIP:
+    Primary Author: Bethany Ludwig
+Notes: 
+"""	
+
+
 import matplotlib.pyplot as plt 
 import numpy as np 
 import os,time
@@ -22,6 +33,7 @@ smc_observation_id = np.arange(40415,40465,1).astype(str)
 # Observations Ids for LMC_Survey_# Survey
 lmc_observation_id = np.arange(45422,45587,1).astype(str)
 
+# Can select a specific field to run here
 uvfilter = filters[2]   
 obsid = 45490
 galaxy = 'lmc'
@@ -65,7 +77,7 @@ source = get_meta().with_hdu(hdu=hdr,
                  Bmag_cutoff=20.5,
                  fits_origin=0,
                  aperture_size=2.5*2,
-                 xdim=[0,np.shape(hdr.data)[1]],  #  <---- Can change how much of the field you want to run on. Makes runs much shorter.
+                 xdim=[0,np.shape(hdr.data)[1]],  #  <---- Can change how much of the field you want to run on. 
                  ydim=[0,np.shape(hdr.data)[0]],
                  #xdim=[500,700],  #  <---- Reasonable numbers for quick test.
                  #ydim=[500,700],            
@@ -90,7 +102,7 @@ TractorObject = PhotometryTools(source,
                     psf_filename = psf_object,
                     fits_table_sname = savefile, 
                     background = bkgd,
-                    fit_positions = np.nan, # This is what takes so long, you can change it to np.nan for a quick test. Otherwise it's 0.05
+                    fit_positions = 0.05, # This is what takes so long, you can change it to np.nan for a quick test. Otherwise it's 0.05
                     threshold = 1.5,
                     save_output=True)
 

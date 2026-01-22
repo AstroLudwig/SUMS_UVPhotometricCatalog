@@ -1,3 +1,15 @@
+"""
+NAME:
+    Heasarc
+PURPOSE:
+    A class containing routines to run HEASARC UVOT tools on SUMS Tractor UV data.
+AUTHORSHIP:
+    Primary Author: Maria Drout 
+    Secondary Author: Bethany Ludwig
+Notes: 
+"""
+
+
 import numpy as np
 from astropy.io import fits
 from astropy.io import ascii
@@ -9,8 +21,7 @@ import matplotlib.pyplot as plt
 import time
 from astropy.io.fits import update
 import os
-# Primary Author: Maria Drout
-# Secondary Author: Bethany Ludwig
+
 data_dir = os.getenv("DATADIR")
 
 class HeasarcRoutines:

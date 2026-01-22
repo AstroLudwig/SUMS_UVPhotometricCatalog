@@ -1,10 +1,20 @@
+"""
+NAME:
+    Run Heasarc Routines
+PURPOSE:
+    Automate Running Heasarc Routine on Tractor Files in Given Path
+AUTHORSHIP:
+    Primary Author: Bethany Ludwig
+Notes: 
+"""	
+
 import sys 
 import os
 import glob
 sys.path.insert(0, 'lib/')
 from Heasarc import *
 
-# Run Heasarc Routine on Tractor Files in Given Path
+
 def run_heasarc(path):
 	def format_filter(uvfilter):
 		if uvfilter == 'um2':
