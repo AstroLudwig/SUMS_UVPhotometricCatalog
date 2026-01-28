@@ -4,11 +4,11 @@ UV photometry of 700,000+ Magellanic Cloud sources from [archival Swift-UVOT ima
 # License & Citation
 If you use this code or data, please cite both:<br> 
 
-**[Paper](https://arxiv.org/pdf/2505.18632v1):**  <br> 
-Ludwig, B., Drout, M. R., Gotberg, Y., Lang, D., & Laroche, A. 2025, The Stripped-Star Ultraviolet Magellanic Cloud Survey (SUMS): The UV Photometric Catalog and Stripped Star Candidate Selection *The Astrophysical Journal*, Submitted  <br> 
+**Paper:**  <br> 
+Ludwig, B., Drout, M. R., Gotberg, Y., Lang, D., & Laroche, A. 2025, The Stripped-Star Ultraviolet Magellanic Cloud Survey (SUMS): The UV Photometric Catalog and Stripped Star Candidate Selection, *The Astrophysical Journal*  <br> 
 
-**[Repository](https://doi.org/10.5281/zenodo.17551743):**  <br> 
-Ludwig, B., Drout, M. R., Gotberg, Y., Lang, D., & Laroche, A. 2025, The SUMS UV Photometric Catalog and Pipeline, v1.0.0, Zenodo, doi:10.5281/zenodo.17551743 <br> 
+**Repository:**  <br> 
+Ludwig, B., Drout, M. R., Gotberg, Y., Lang, D., & Laroche, A. 2025, The SUMS UV Photometric Catalog and Pipeline, v1.0.0, Zenodo <br> 
 
 **Licenses:**  <br> 
 Code — [MIT License](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/LICENSE)  <br> 
@@ -17,7 +17,7 @@ Data — [CC BY 4.0](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/bl
 Questions or feedback? I’d be happy to hear from you — please contact Dr. Bethany Ludwig. <br>
 
 # Disclaimer:
-Before using data it is imperative to understand the contents, caveats, and limitations of that work. Section 4.4 of our paper details the catalog contents, including flag definitions, while Appendix A summarizes the caveats and limitations. For convenience, we have also briefly summarized [the contents](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CONTENTS.md) and [caveats](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CAVEATS.md) in the Catalogs folder. Please have a look at these prior to your analysis. <br>
+Before using data it is important to understand the contents, caveats, and limitations of that work. Section 4.4 of our paper details the catalog contents, including flag definitions, while Appendix A summarizes the caveats and limitations. For convenience, we have also briefly summarized [the contents](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CONTENTS.md) and [caveats](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CAVEATS.md) in the Catalogs folder. Please have a look at these prior to your analysis. <br>
 
 # Abstract & Summary
 This repository contains all code used in this project. Below is a brief summary, please consult our paper for further details.<br> 
@@ -40,9 +40,10 @@ In 5_AssessCandidates we assess the properties of our candidates including their
    
 In 6_OtherBlue we assess the potential contamination from early main-sequence stars and other UV excess systems including foreground and background sources.<br> 
 
-Finally, the SUMS Catalog is located in the Catalogs folder. It is comprised of three tables and two README files which describe (i) [the contents](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/v1.0.0/Catalogs/CONTENTS.md) and (ii) [the caveats](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CAVEATS.md) of the catalog.   
+Finally, the SUMS Catalog, in addition to the online tables, is located in the Catalogs folder. It is comprised of two CSV files in a zipped folder, and two README files which describe (i) [the contents](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/v1.0.0/Catalogs/CONTENTS.md) and (ii) [the caveats](https://github.com/AstroLudwig/SUMS_UVPhotometricCatalog/blob/main/Catalogs/CAVEATS.md) of the catalog.   
 
 Ready your code — the UV sky awaits. :sparkles:
+
 
 
 
